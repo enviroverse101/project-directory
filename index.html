@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviroverse - Sustainability Projects</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f9f5;
+        }
+        
+        h1 {
+            color: #2e7d32;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        label {
+            font-weight: 600;
+            color: #2e7d32;
+        }
+        
+        select, input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #2e7d32;
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+        
+        tr:hover {
+            background-color: #f1f8e9;
+        }
+        
+        .project-type {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            background-color: #e8f5e9;
+            color: #1b5e20;
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+            }
+            
+            th, td {
+                padding: 8px 10px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Sustainability Projects Directory</h1>
+    
+    <div class="controls">
+        <div class="filter-group">
+            <label for="location-filter">Filter by Location:</label>
+            <select id="location-filter">
+                <option value="">All Locations</option>
+                <option value="London">London</option>
+                <option value="Bristol">Bristol</option>
+                <option value="Cambridge">Cambridge</option>
+                <option value="Manchester">Manchester</option>
+                <option value="Edinburgh">Edinburgh</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label for="search">Search:</label>
+            <input type="text" id="search" placeholder="Project name or keywords...">
+        </div>
+    </div>
+    
+    <table id="projects-table">
+        <thead>
+            <tr>
+                <th>Project Name</th>
+                <th>Location</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Contact</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Community Garden Initiative</td>
+                <td>London</td>
+                <td><span class="project-type">Green Spaces</span></td>
+                <td>Transforming unused urban lots into productive community gardens</td>
+                <td>gardens@example.com</td>
+            </tr>
+            <tr>
+                <td>Bristol Plastic-Free</td>
+                <td>Bristol</td>
+                <td><span class="project-type">Waste Reduction</span></td>
+                <td>Campaign to reduce single-use plastics in local businesses</td>
+                <td>plasticfree@example.com</td>
+            </tr>
+            <tr>
+                <td>Cambridge Bike Share</td>
+                <td>Cambridge</td>
+                <td><span class="project-type">Transport</span></td>
+                <td>Expanding bicycle sharing program to reduce car use</td>
+                <td>bikes@example.com</td>
+            </tr>
+            <tr>
+                <td>Edinburgh Repair Café</td>
+                <td>Edinburgh</td>
+                <td><span class="project-type">Circular Economy</span></td>
+                <td>Monthly event where people can repair items instead of discarding them</td>
+                <td>repair@example.com</td>
+            </tr>
+            <tr>
+                <td>Manchester Energy Co-op</td>
+                <td>Manchester</td>
+                <td><span class="project-type">Energy</span></td>
+                <td>Community-owned renewable energy projects</td>
+                <td>energy@example.com</td>
+            </tr>
+            <tr>
+                <td>London School Recycling</td>
+                <td>London</td>
+                <td><span class="project-type">Education</span></td>
+                <td>Recycling program and education in 20 primary schools</td>
+                <td>schools@example.com</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const locationFilter = document.getElementById('location-filter');
+            const searchInput = document.getElementById('search');
+            const tableRows = document.querySelectorAll('#projects-table tbody tr');
+            
+            function filterProjects() {
+                const locationValue = locationFilter.value.toLowerCase();
+                const searchValue = searchInput.value.toLowerCase();
+                
+                tableRows.forEach(row => {
+                    const location = row.cells[1].textContent.toLowerCase();
+                    const projectName = row.cells[0].textContent.toLowerCase();
+                    const description = row.cells[3].textContent.toLowerCase();
+                    
+                    const locationMatch = locationValue === '' || location.includes(locationValue);
+                    const searchMatch = searchValue === '' || 
+                                        projectName.includes(searchValue) || 
+                                        description.includes(searchValue);
+                    
+                    if (locationMatch && searchMatch) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            }
+            
+            locationFilter.addEventListener('change', filterProjects);
+            searchInput.addEventListener('input', filterProjects);
+        });
+    </script>
+</body>
+</html>
